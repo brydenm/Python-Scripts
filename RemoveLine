@@ -1,0 +1,10 @@
+#Removes last line from a file.  Used to remove erroneous line after merging CSV files via cmd prompt
+
+
+mylines = open('filename.txt', 'r').readlines()  #store the file contents in a variable
+print(mylines[-2:])  #display the last two lines
+myfile = open('filename.txt' 'w') #open file i n write
+myfile.writelines([item for item in lines[:-1]])
+myfile.close()
+mylines = open('filename.txt', 'r').readlines()  #open file as readonly to get lines
+print(mylines[-2:])  #print the last two lines
