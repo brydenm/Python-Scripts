@@ -1,0 +1,32 @@
+# script to concatenate all CSV files within a directory to combined.csv
+# files should have similar 
+
+#import required libraries
+import glob
+import os
+import pandas as pd
+
+#set working directory
+os.chdir(r"\\shsdata03a\NSL_MNG\Group strategic development\11 Reporting and Analytics\Bryden\032 SMB Cancellation Churn")
+
+# Use glob to match the pattern ‘csv’
+# Match the pattern (‘csv’) and save the list of file names in the ‘all_filenames’ variable. 
+
+extension = 'csv'
+all_filenames = [i for i in glob.glob('*.{}'.format(extension))]
+
+# use pandas concat function to read csv files into a pandas dataframe
+combined_csv = pd.concat([pd.read_csv(f) for f in all_filenames ])
+
+# Above function throws a warning because Pandas is reading mixed dtypes for a column
+# We can cast the datatype using the dtype argument, however 
+# a) the numeric column # contains comma characters which would need to be stripped out
+# b) the data will be used in Tableau where datatypes are more easily detected and changed
+# example: combined_csv = pd.concat([pd.read_csv(f, dtype={'Adjustment Amount': 'float64'}) for f in all_filenames ])
+
+
+#lastly, export the resulting dataframe to csv
+combined_csv.to_csv( "combined.csv", index=False, encoding='utf-8-sig')
+
+
+
